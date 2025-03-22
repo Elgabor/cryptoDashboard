@@ -1,0 +1,14 @@
+/* Modalità Scura */
+.dark {
+    background-color: #1a202c;
+    color: white;
+}
+
+.dark input {
+    background-color: #2d3748;
+    color: white;
+}
+
+.dark .border {
+    border-color: #4a5568;
+}
