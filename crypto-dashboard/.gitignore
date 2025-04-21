@@ -25,4 +25,4 @@ dist-ssr
 
 # Firebase config (ignoralo perché useremo .env)
 src/firebase/config.js
-key.env
+.env

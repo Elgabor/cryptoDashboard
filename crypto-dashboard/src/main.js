@@ -1,6 +1,10 @@
 import { loginAnonymous, watchAuth } from "./module/auth.js";
 import { salvaPreferito, rimuoviPreferito, caricaPreferiti } from "./module/db.js";
 
+console.log("⚙️ main.js caricato");
+const toggleThemeButton = document.getElementById("toggleTheme");
+console.log("🔎 toggleThemeButton:", toggleThemeButton);
+
 let currentUser = null;
 let fetchData = [];
 let sortDirection = "asc";
@@ -23,6 +27,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 function setupThemeToggle() {
   const toggleThemeButton = document.getElementById("toggleTheme");
+  console.log("setupThemeToggle—button trovato:", toggleThemeButton);
   toggleThemeButton.addEventListener("click", () => {
     document.body.classList.toggle("dark");
     localStorage.setItem("theme", document.body.classList.contains("dark") ? "dark" : "light");
