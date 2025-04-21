@@ -1,5 +1,6 @@
 import { loginAnonymous, watchAuth } from "./module/auth.js";
 import { salvaPreferito, rimuoviPreferito, caricaPreferiti } from "./module/db.js";
+import Chart from 'chart.js/auto';
 
 console.log("⚙️ main.js caricato");
 const toggleThemeButton = document.getElementById("toggleTheme");
@@ -67,8 +68,52 @@ function renderCards(cryptoArray) {
   });
 } 
 
+async function openDetailCard(crypto) {
+  const modal     = document.getElementById('detailModal');
+  const container = document.getElementById('modalContent');
+  container.innerHTML = `
+    <h2 class="text-2xl font-bold mb-4">${crypto.name} (${crypto.symbol.toUpperCase()})</h2>
+    <div class="flex justify-center mb-6">
+      <canvas id="detailChart" class="w-full max-w-xl" height="300"></canvas>
+    </div>
+    <div class="space-y-2">
+      <p>Prezzo attuale: $${crypto.current_price.toLocaleString()}</p>
+      <p>Market Cap: $${crypto.market_cap.toLocaleString()}</p>
+      <p>Volume 24h: $${crypto.total_volume.toLocaleString()}</p>
+    </div>
+  `;
+
+  // fetch storico 30gg
+  const res  = await fetch(
+    `https://api.coingecko.com/api/v3/coins/${crypto.id}/market_chart?vs_currency=usd&days=30`
+  );
+  const data = await res.json();
+  const prices = data.prices.map(p => p[1]);
+  const labels = data.prices.map(p => new Date(p[0]).toLocaleDateString());
+
+  // disegna chart
+  const ctx = document.getElementById("detailChart").getContext("2d");
+  new Chart(ctx, {
+    type: 'line',
+    data: { labels, datasets: [{ data: prices, borderColor: '#3b82f6', fill: false }] },
+    options: {
+      responsive: true,
+      scales: { x: { display: true }, y: { display: true } },
+      plugins: { legend: { display: false } }
+    }
+  });
+
+  // mostra modale
+  modal.classList.remove("hidden");
+}
+
+document.getElementById("closeModal").addEventListener("click", () => {
+  document.getElementById("detailModal").classList.add("hidden");
+});
+
 function renderCard(crypto, preferiti = []) {
   const card = document.createElement("div");
+  card.addEventListener('click', ()=>openDetailCard(crypto))
   card.className = "card flex justify-between items-center p-4 bg-white rounded-lg shadow transition hover:scale-105";
 
   const color = crypto.price_change_percentage_24h < 0 ? "text-red-500" : "text-green-500";

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crypto Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="git rm --cached .env/src/style.css">
 </head>
 <body class="bg-gray-100 text-gray-900">
     <div class="max-w-5xl mx-auto p-6">
@@ -32,6 +32,18 @@
 
         <div id="cryptoContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4">
         </div>
+    </div>
+
+    <div id="cryptoContainer" class="…"></div>
+
+    <!-- Modal container -->
+    <div id="detailModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden">
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl max-w-2xl w-full relative">
+        <button id="closeModal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 dark:hover:text-gray-200">✕</button>
+        <div id="modalContent" class="p-6">
+          <!-- Qui inseriremo dinamicamente titolo, chart e dettagli -->
+        </div>
+      </div>
     </div>
 
     <script type="module" src="./src/main.js" defer></script>
